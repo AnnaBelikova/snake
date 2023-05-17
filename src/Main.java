@@ -10,17 +10,17 @@ public class Main {
 
     static String cell = "| ";
 
-    static String snake = "->";
-
     static String[][] field = new String[9][9];
     static int x = 0;
     static int y = 0;
+    static Fruit fruit = new Fruit();
 
-    static int snakeLength = 2;
 
     public static void updateField() {
-        for (int j = 0; j < 9; j++) {
-            field[0][j] = cell;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                field[i][j] = cell;
+            }
         }
         if( x < field[0].length-2){
             x++;
@@ -29,16 +29,18 @@ public class Main {
         }
 
         if(x == field[0].length-2){
-            field[y][x] = cell.substring(0, 1) + snake.substring(0,1);
-            field[y][0] = cell.substring(0, 1) + snake.substring(1,2);
+            field[y][x] = cell.substring(0, 1) + Snake.body.substring(0,1);
+            field[y][0] = cell.substring(0, 1) + Snake.body.substring(1,2);
         }else{
-            field[y][x] = cell.substring(0, 1) + snake.substring(0,1);
-            field[y][x+snakeLength-1] = cell.substring(0, 1) + snake.substring(1,2);
+            field[y][x] = cell.substring(0, 1) + Snake.body.substring(0,1);
+            field[y][x+Snake.length-1] = cell.substring(0, 1) + Snake.body.substring(1,2);
         }
 
         if(x==0){
             x++;
         };
+
+        field[fruit.y][fruit.x] =cell.substring(0, 1) + fruit.sign;
 
     }
 
@@ -58,6 +60,8 @@ public class Main {
                 field[i][j] = cell;
             }
         }
+
+        fruit.generateFruit(8,8);
 
         while (true) {
             updateField();
