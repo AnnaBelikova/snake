@@ -1,6 +1,11 @@
 package src;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.util.Scanner;
+
+
 public class Main {
     public static void clearConsole() {
         for ( int i = 0; i < 100; ++i) {
@@ -8,39 +13,47 @@ public class Main {
         }
     }
 
-    static String cell = "| ";
+    static String cell = "X";
 
     static String[][] field = new String[9][9];
     static int x = 0;
     static int y = 0;
     static Fruit fruit = new Fruit();
 
+    static Snake snake = new Snake();
 
-    public static void updateField() {
+
+    public static void updateField() throws IOException{
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 field[i][j] = cell;
             }
         }
-        if( x < field[0].length-2){
-            x++;
-        }else{
-            x=0;
+        String x;
+
+        Scanner scanner = new Scanner(System.in);
+        x = scanner.next();
+
+
+        char c;
+        c = x.charAt(0);
+        snake.nextStep(c,field[0].length, field.length, new int[] {fruit.x, fruit.y} );
+
+        String snakeHead = snake.getSnakeHead(c);
+
+        int index = 0;
+        for( int[] part: snake.body){
+            if(index == 0){
+                field[part[1]][part[0]] = snakeHead;
+                index++;
+            }else{
+                field[part[1]][part[0]] = snake.getSnakeTail();
+            }
         }
-
-        if(x == field[0].length-2){
-            field[y][x] = cell.substring(0, 1) + Snake.body.substring(0,1);
-            field[y][0] = cell.substring(0, 1) + Snake.body.substring(1,2);
-        }else{
-            field[y][x] = cell.substring(0, 1) + Snake.body.substring(0,1);
-            field[y][x+Snake.length-1] = cell.substring(0, 1) + Snake.body.substring(1,2);
+        if(snake.ifEatFruit(new int[] {fruit.x, fruit.y} )){
+            fruit.generateFruit(8,8);
         }
-
-        if(x==0){
-            x++;
-        };
-
-        field[fruit.y][fruit.x] =cell.substring(0, 1) + fruit.sign;
+        field[fruit.y][fruit.x] = fruit.sign;
 
     }
 
@@ -53,7 +66,7 @@ public class Main {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -66,12 +79,12 @@ public class Main {
         while (true) {
             updateField();
             printField();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            clearConsole();
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                Thread.currentThread().interrupt();
+//            }
+            //clearConsole();
         }
 
     }
