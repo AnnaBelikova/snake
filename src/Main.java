@@ -39,7 +39,7 @@ public class Main {
         c = x.charAt(0);
         snake.nextStep(c,field[0].length, field.length, new int[] {fruit.x, fruit.y} );
 
-        String snakeHead = snake.getSnakeHead(c);
+        String snakeHead = snake.getSnakeHead();
 
         int index = 0;
         for( int[] part: snake.body){
@@ -53,7 +53,10 @@ public class Main {
         if(snake.ifEatFruit(new int[] {fruit.x, fruit.y} )){
             fruit.generateFruit(8,8);
         }
+
         field[fruit.y][fruit.x] = fruit.sign;
+
+
 
     }
 
@@ -64,6 +67,10 @@ public class Main {
             }
             System.out.println();
         }
+    }
+
+    public static void printLooser() {
+        System.out.print("LOOSER");
     }
 
     public static void main(String[] args) throws IOException {
@@ -78,7 +85,12 @@ public class Main {
 
         while (true) {
             updateField();
-            printField();
+            if(snake.ifTailIsBitten()){
+                printLooser();
+            }else{
+                printField();
+            }
+
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {

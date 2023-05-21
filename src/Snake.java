@@ -9,6 +9,7 @@ import java.util.Map;
 public class Snake {
     static Map<String, String> symbols = new HashMap<String, String>();
     static Map<Character, int[]> directions = new HashMap<Character, int[]>();
+
     static char curDir = 'a';
     static Deque<int[]> body = new ArrayDeque<>();
 
@@ -28,7 +29,11 @@ public class Snake {
     }
 
     public static void nextStep(char symbol, int fieldLineLength, int fieldColumnLength, int[] friutCords ) {
-        curDir = symbol;
+        if(curDir == 'a' && symbol =='d' || curDir == 'd' && symbol =='a' || curDir == 'w' && symbol =='s' || curDir == 's' && symbol =='w'){
+            symbol = curDir;
+        }else{
+            curDir = symbol;
+        }
         int[] snakeHead = body.getFirst();
         int[] newHead = new int[2];
 
@@ -51,8 +56,8 @@ public class Snake {
 
     }
 
-    public static String getSnakeHead(char symbol) {
-        return symbols.get(Character.toString(symbol));
+    public static String getSnakeHead() {
+        return symbols.get(Character.toString(curDir));
     }
     public static String getSnakeTail() {
         return symbols.get("tail");
@@ -70,7 +75,15 @@ public class Snake {
     }
 
     public static boolean ifTailIsBitten() {
-        return true;
+        int[] snakeHead = body.getFirst();
+        int index =0;
+        for(int[] part : body) {
+            if(part[0] == snakeHead[0] && part[1] == snakeHead[1] && index !=0){
+                return true;
+            }
+            index++;
+        }
+        return false;
     }
 
 }

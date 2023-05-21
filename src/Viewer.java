@@ -22,4 +22,8 @@ public class Viewer {
 
     }
 
+    public static void drawLooser(){
+
+    }
+
 }
