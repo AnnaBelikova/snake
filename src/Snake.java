@@ -7,37 +7,41 @@ import java.util.Map;
 
 
 public class Snake {
-    static Map<String, String> symbols = new HashMap<String, String>();
-    static Map<Character, int[]> directions = new HashMap<Character, int[]>();
+    static Map<Commander.Sites, int[]> directions = new HashMap<Commander.Sites, int[]>();
 
-    static char curDir = 'a';
+    static Commander.Sites curDir = Commander.Sites.RIGHT;
     static Deque<int[]> body = new ArrayDeque<>();
 
-    public Snake() {
-        symbols.put("tail", "-");
-        symbols.put("a", "<");
-        symbols.put("w", "︿");
-        symbols.put("d", ">");
-        symbols.put("s", "﹀");
+    static int startLength = 1;
 
-        directions.put('a',new int[] {-1,0});
-        directions.put('w',new int[] {0,-1});
-        directions.put('d',new int[] {1, 0});
-        directions.put('s',new int[] {0, 1});
 
-        body.push(new int[]{0, 0});
+
+    public Snake( int length, int maxLength) {
+        if(length > 0 && length <= maxLength){
+            startLength = length;
+        }
+
+        for(int i = 0 ; i < startLength; i++){
+            body.push(new int[] {i, 0});
+        }
+
+        directions.put(Commander.Sites.LEFT,new int[] {-1,0});
+        directions.put(Commander.Sites.UP,new int[] {0,-1});
+        directions.put(Commander.Sites.RIGHT,new int[] {1, 0});
+        directions.put(Commander.Sites.DOWN,new int[] {0, 1});
+
     }
 
-    public static void nextStep(char symbol, int fieldLineLength, int fieldColumnLength, int[] friutCords ) {
-        if(curDir == 'a' && symbol =='d' || curDir == 'd' && symbol =='a' || curDir == 'w' && symbol =='s' || curDir == 's' && symbol =='w'){
-            symbol = curDir;
+    public static void nextStep(Commander.Sites command, int fieldLineLength, int fieldColumnLength, int[] friutCords ) {
+        if(curDir == Commander.Sites.LEFT && command ==Commander.Sites.RIGHT || curDir == Commander.Sites.RIGHT && command ==Commander.Sites.LEFT || curDir == Commander.Sites.UP && command ==Commander.Sites.DOWN || curDir == Commander.Sites.DOWN && command ==Commander.Sites.UP){
+            command = curDir;
         }else{
-            curDir = symbol;
+            curDir = command;
         }
         int[] snakeHead = body.getFirst();
         int[] newHead = new int[2];
 
-        int[] dirCords = directions.get(symbol);
+        int[] dirCords = directions.get(command);
 
 
         newHead[0] = snakeHead[0]+dirCords[0];
@@ -56,15 +60,6 @@ public class Snake {
 
     }
 
-    public static String getSnakeHead() {
-        return symbols.get(Character.toString(curDir));
-    }
-    public static String getSnakeTail() {
-        return symbols.get("tail");
-    }
-
-
-
     public static boolean ifEatFruit(int[] fruitCords) {
         int[] snakeHead = body.getFirst();
         if(snakeHead[0] == fruitCords[0] && snakeHead[1] == fruitCords[1]){
@@ -75,6 +70,7 @@ public class Snake {
     }
 
     public static boolean ifTailIsBitten() {
+
         int[] snakeHead = body.getFirst();
         int index =0;
         for(int[] part : body) {

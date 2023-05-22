@@ -5,25 +5,79 @@ import java.util.Map;
 
 public class Viewer {
 
-    static String fruit = "o";
+    static String[][] resultField;
+
+    static String fruitSign = "o";
 
     static String cell = "X";
 
+    static String snakeBody = "-";
 
-    public static void drawField(){
+    static Map<Commander.Sites, String> snakeHead = new HashMap<Commander.Sites, String>();
+
+    public Viewer(){
+
+        snakeHead.put(Commander.Sites.LEFT, "<");
+        snakeHead.put(Commander.Sites.UP, "︿");
+        snakeHead.put(Commander.Sites.RIGHT, ">");
+        snakeHead.put(Commander.Sites.DOWN, "﹀");
 
     }
 
-    public static void drawSnake(){
 
+    public static void printField(  Snake snake, Fruit fruit){
+        updateField(snake, fruit);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                System.out.print(resultField[i][j]);
+            }
+            System.out.println();
+        }
     }
 
-    public static void drawFruit(){
-
+    public static void updateField( Snake snake, Fruit fruit){
+        addFruitToField(fruit);
+        addSnakeToField(snake);
     }
 
-    public static void drawLooser(){
 
+
+    public static void createField(Field field){
+        resultField = new String[field.rows][field.columns];
+        for (int i = 0; i < field.rows; i++) {
+            for (int j = 0; j < field.columns; j++) {
+                resultField[i][j] = cell;
+            }
+        }
+    }
+
+    public static void clearField(){
+        for (int i = 0; i < resultField.length; i++) {
+            for (int j = 0; j < resultField[0].length; j++) {
+                resultField[i][j] = cell;
+            }
+        }
+    }
+
+    public static void addFruitToField(Fruit fruit){
+        resultField[fruit.y][fruit.x] = fruitSign;
+    }
+
+    public static void addSnakeToField(Snake snake){
+        int index = 0;
+        for( int[] part: snake.body){
+            if(index == 0){
+                resultField[part[1]][part[0]] = snakeHead.get(snake.curDir);
+                index++;
+            }else{
+                resultField[part[1]][part[0]] = snakeBody;
+            }
+        }
+    }
+
+
+    public static void printLooser(){
+        System.out.print("LOOSER");
     }
 
 }
