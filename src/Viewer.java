@@ -25,17 +25,18 @@ public class Viewer {
     }
 
 
-    public static void printField(  Snake snake, Fruit fruit){
-        updateField(snake, fruit);
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+    public static void printField(Field field,  Snake snake, Fruit fruit){
+        updateField(field, snake, fruit);
+        for (int i = 0; i < field.rows; i++) {
+            for (int j = 0; j < field.columns; j++) {
                 System.out.print(resultField[i][j]);
             }
             System.out.println();
         }
     }
 
-    public static void updateField( Snake snake, Fruit fruit){
+    public static void updateField( Field field, Snake snake, Fruit fruit){
+        createField(field);
         addFruitToField(fruit);
         addSnakeToField(snake);
     }

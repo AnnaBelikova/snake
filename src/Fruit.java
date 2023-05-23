@@ -3,8 +3,6 @@ package src;
 import java.util.Random;
 
 public class Fruit {
-    static String sign = "o";
-    static String cell = "X";
 
     static int x = 0;
     static int y = 0;

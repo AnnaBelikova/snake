@@ -26,13 +26,8 @@ public class Main {
         viewer.createField(field);
 
         while (true) {
-            String x;
-            Scanner scanner = new Scanner(System.in);
-            x = scanner.next();
-            char c;
-            c = x.charAt(0);
 
-            Commander.Sites command = commander.getCommand(c);
+            Commander.Sites command = commander.getCommand();
 
             snake.nextStep(command, field.rows, field.columns, new int[] {fruit.x, fruit.y} );
             if(snake.ifEatFruit(new int[] {fruit.x, fruit.y} )){
@@ -42,7 +37,7 @@ public class Main {
             if(snake.ifTailIsBitten()){
                 viewer.printLooser();
             }else{
-                viewer.printField(snake, fruit);
+                viewer.printField(field, snake, fruit);
             }
 
         }
