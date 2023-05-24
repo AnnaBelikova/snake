@@ -11,13 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        Field field = new Field(9,9);
-
-        Snake snake = new Snake(7, field.columns);
-
-        Fruit fruit = new Fruit();
-
-        fruit.generateFruit(field.rows,field.columns);
+        Field field = new Field(9,9, 7);
 
         Viewer viewer = new Viewer();
 
@@ -29,15 +23,12 @@ public class Main {
 
             Commander.Sites command = commander.getCommand();
 
-            snake.nextStep(command, field.rows, field.columns, new int[] {fruit.x, fruit.y} );
-            if(snake.ifEatFruit(new int[] {fruit.x, fruit.y} )){
-                fruit.generateFruit(field.rows,field.columns);
-            }
+            field.updateField(command);
 
-            if(snake.ifTailIsBitten()){
+            if(field.ifIsLooser()){
                 viewer.printLooser();
             }else{
-                viewer.printField(field, snake, fruit);
+                viewer.printField(field);
             }
 
         }

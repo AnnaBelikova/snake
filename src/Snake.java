@@ -9,10 +9,9 @@ import java.util.Map;
 public class Snake {
     static Map<Commander.Sites, int[]> directions = new HashMap<Commander.Sites, int[]>();
 
-    static Commander.Sites curDir = Commander.Sites.RIGHT;
-    static Deque<int[]> body = new ArrayDeque<>();
-
-    static int startLength = 1;
+    Commander.Sites curDir = Commander.Sites.RIGHT;
+    Deque<int[]> body = new ArrayDeque<>();
+    int startLength = 1;
 
 
 
@@ -32,7 +31,7 @@ public class Snake {
 
     }
 
-    public static void nextStep(Commander.Sites command, int fieldLineLength, int fieldColumnLength, int[] friutCords ) {
+    public void nextStep(Commander.Sites command, Field field ) {
         if(curDir == Commander.Sites.LEFT && command ==Commander.Sites.RIGHT || curDir == Commander.Sites.RIGHT && command ==Commander.Sites.LEFT || curDir == Commander.Sites.UP && command ==Commander.Sites.DOWN || curDir == Commander.Sites.DOWN && command ==Commander.Sites.UP){
             command = curDir;
         }else{
@@ -47,29 +46,20 @@ public class Snake {
         newHead[0] = snakeHead[0]+dirCords[0];
         newHead[1] = snakeHead[1]+dirCords[1];
 
-        if(newHead[0] < 0 || newHead[0] > fieldLineLength-1 ){
-            newHead[0] = newHead[0] < 0 ? fieldLineLength-1 : 0;
-        }else if(newHead[1] < 0 || newHead[1] > fieldColumnLength-1 ){
-            newHead[1] = newHead[1] < 0 ? fieldColumnLength-1 : 0;
+        if(newHead[0] < 0 || newHead[0] > field.rows-1 ){
+            newHead[0] = newHead[0] < 0 ? field.rows-1 : 0;
+        }else if(newHead[1] < 0 || newHead[1] > field.columns-1 ){
+            newHead[1] = newHead[1] < 0 ? field.columns-1 : 0;
         }
 
         body.addFirst(newHead);
-        if(!ifEatFruit(friutCords)){
+        if(!field.ifEatFruit()){
             body.removeLast();
         }
 
     }
 
-    public static boolean ifEatFruit(int[] fruitCords) {
-        int[] snakeHead = body.getFirst();
-        if(snakeHead[0] == fruitCords[0] && snakeHead[1] == fruitCords[1]){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    public static boolean ifTailIsBitten() {
+    public boolean ifTailIsBitten() {
 
         int[] snakeHead = body.getFirst();
         int index =0;

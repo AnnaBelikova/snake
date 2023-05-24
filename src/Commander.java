@@ -20,7 +20,7 @@ public class Commander {
         directionsKeys.put(Sites.DOWN,'s');
     }
 
-    public static Sites getCommand(){
+    public Sites getCommand(){
         String x;
         Scanner scanner = new Scanner(System.in);
         x = scanner.next();

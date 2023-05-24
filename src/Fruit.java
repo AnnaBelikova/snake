@@ -4,19 +4,11 @@ import java.util.Random;
 
 public class Fruit {
 
-    static int x = 0;
-    static int y = 0;
+    int x = 0;
+    int y = 0;
 
-    public static void generateFruit(int maxX, int maxY) {
-        x = getRandomNumberUsingNextInt(0, maxX);
-        y = getRandomNumberUsingNextInt(0, maxY);
+    public Fruit(int cordX, int cordY){
+        x = cordX;
+        y = cordY;
     }
-
-    protected static int getRandomNumberUsingNextInt(int min, int max) {
-        Random random = new Random();
-        return random.nextInt(max - min) + min;
-    }
-
-
-
 }

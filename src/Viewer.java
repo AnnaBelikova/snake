@@ -5,15 +5,15 @@ import java.util.Map;
 
 public class Viewer {
 
-    static String[][] resultField;
+    String[][] resultField;
 
-    static String fruitSign = "o";
+    String fruitSign = "o";
 
-    static String cell = "X";
+    String cell = "X";
 
-    static String snakeBody = "-";
+    String snakeBody = "-";
 
-    static Map<Commander.Sites, String> snakeHead = new HashMap<Commander.Sites, String>();
+    Map<Commander.Sites, String> snakeHead = new HashMap<Commander.Sites, String>();
 
     public Viewer(){
 
@@ -25,8 +25,8 @@ public class Viewer {
     }
 
 
-    public static void printField(Field field,  Snake snake, Fruit fruit){
-        updateField(field, snake, fruit);
+    public void printField(Field field){
+        updateField(field);
         for (int i = 0; i < field.rows; i++) {
             for (int j = 0; j < field.columns; j++) {
                 System.out.print(resultField[i][j]);
@@ -35,15 +35,15 @@ public class Viewer {
         }
     }
 
-    public static void updateField( Field field, Snake snake, Fruit fruit){
+    public void updateField( Field field){
         createField(field);
-        addFruitToField(fruit);
-        addSnakeToField(snake);
+        addFruitToField(field.fruit);
+        addSnakeToField(field.snake);
     }
 
 
 
-    public static void createField(Field field){
+    public void createField(Field field){
         resultField = new String[field.rows][field.columns];
         for (int i = 0; i < field.rows; i++) {
             for (int j = 0; j < field.columns; j++) {
@@ -52,7 +52,7 @@ public class Viewer {
         }
     }
 
-    public static void clearField(){
+    public void clearField(){
         for (int i = 0; i < resultField.length; i++) {
             for (int j = 0; j < resultField[0].length; j++) {
                 resultField[i][j] = cell;
@@ -60,11 +60,11 @@ public class Viewer {
         }
     }
 
-    public static void addFruitToField(Fruit fruit){
+    public void addFruitToField(Fruit fruit){
         resultField[fruit.y][fruit.x] = fruitSign;
     }
 
-    public static void addSnakeToField(Snake snake){
+    public void addSnakeToField(Snake snake){
         int index = 0;
         for( int[] part: snake.body){
             if(index == 0){
@@ -77,7 +77,7 @@ public class Viewer {
     }
 
 
-    public static void printLooser(){
+    public void printLooser(){
         System.out.print("LOOSER");
     }
 
